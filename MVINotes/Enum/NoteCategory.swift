@@ -9,5 +9,4 @@ enum NoteCategory: String, Equatable, CaseIterable {
     case all = "All"
     case none = "None"
     case favorites = "Favorites"
-    case archived = "Archived"
 }

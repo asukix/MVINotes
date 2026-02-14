@@ -7,5 +7,5 @@
 import Foundation
 
 enum NoteResult {
-    case applied(NoteListAction)
+    case applied(NotesAction)
 }

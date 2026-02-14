@@ -17,7 +17,7 @@ final class NotesStore {
         state.filterMode
     }
     
-    func dispatch(_ action: NoteListAction) {
+    func dispatch(_ action: NotesAction) {
         controller.process(action) { [weak self] result in
             guard let self else { return }
             self.reducer.reduce(state: &self.state, action: action)

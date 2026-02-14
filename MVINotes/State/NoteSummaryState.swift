@@ -29,6 +29,7 @@ struct NoteSummaryState {
         )
     ]
     var filterMode: NoteCategory = .all
+    var route: NotesRoute? = nil
     
     var filteredItems: [NoteSummaryDTO] {
         switch filterMode {
@@ -38,13 +39,6 @@ struct NoteSummaryState {
             return items.filter( { $0.category == .none } )
         case .favorites:
             return items.filter( { $0.category == .favorites } )
-        case .archived:
-            return items.filter( { $0.category == .archived } )
         }
-    }
-    
-    mutating func deleteItem(id: UUID) {
-        guard let idx = items.map( \.id ).firstIndex( of: id ) else { return }
-        items.remove(at: idx)
     }
 }

@@ -8,7 +8,7 @@
 @MainActor
 final class NoteListController {
     func process(
-        _ action: NoteListAction,
+        _ action: NotesAction,
         emit: @escaping(NoteResult) -> Void
     ) {
         emit(.applied(action))

@@ -10,6 +10,7 @@ import SwiftUI
 struct NoteSummaryView: View{
     let data: NoteSummaryDTO
     let store: NotesStore
+    let favoriteTapped: (UUID) -> Void
     
     var favoriteIcone: Image {
         data.category == .favorites ?
@@ -27,20 +28,24 @@ struct NoteSummaryView: View{
                 Text(data.dateString)
             }
             Spacer()
-            VStack {
+            VStack(spacing: 12) {
                 Button(action: {
-                    
+                    favoriteTapped(data.id)
                 }) {
                     favoriteIcone
                         .imageScale(.medium)
+                        .frame(width: 44, height: 44)
                 }
-                .padding(.bottom, 16)
+                .buttonStyle(.borderless)
+                
                 Button(action: {
                     store.dispatch(.delete(id: data.id))
                 }) {
                     Image(systemName: "trash")
                         .imageScale(.medium)
+                        .frame(width: 44, height: 44)
                 }
+                .buttonStyle(.borderless)
             }
         }
         .padding(12)
@@ -49,13 +54,13 @@ struct NoteSummaryView: View{
 
 
 #Preview {
-    NoteSummaryView(
-        data: NoteSummaryDTO(
-            title: "MVI practice",
-            summary: "Create a notes app using MVI architecture",
-            date: Date(),
-            category: .none
-        ),
-        store: NotesStore()
-    )
+//    NoteSummaryView(
+//        data: NoteSummaryDTO(
+//            title: "MVI practice",
+//            summary: "Create a notes app using MVI architecture",
+//            date: Date(),
+//            category: .none
+//        ),
+//        store: NotesStore()
+//    )
 }

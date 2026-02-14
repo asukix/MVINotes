@@ -7,8 +7,11 @@
 import SwiftUI
 
 struct NoteView: View {
-    let title: String = "MVI Practice"
-    let date: String = "2026.02.04."
+    @Environment(\.dismiss) private var dismiss
+    @State private var title: String = ""
+    @State private var summary: String = ""
+    let onCancel: () -> Void
+    let onSave: (NoteSummaryDTO) -> Void
 
     
     @State private var noteText: AttributedString = {
@@ -18,23 +21,40 @@ struct NoteView: View {
 
     var body: some View {
         ZStack(alignment: .top) {
-            VStack(alignment: .center, spacing: 8) {
-                VStack(alignment: .leading) {
-                    Text(title)
-                        .font(.title)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(date)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Divider()
-                }
-
+            VStack(alignment: .center) {
+                TextField("", text: $title, prompt: Text("Title"))
+                    .font(.title)
+                    .frame(alignment: .leading)
+                TextField("", text: $summary, prompt: Text("Summary"))
+                    .foregroundStyle(.secondary)
+                    .frame(alignment: .leading)
+                Divider()
                 RichTextEditor(text: $noteText)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
             .padding()
         }
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    onCancel()
+                    dismiss()
+                } label: {
+                    Label("Back", systemImage: "chevron.left")
+                }
+            }
+            ToolbarItemGroup(placement: .automatic) {
+                Button(action: {
+                    onSave(NoteSummaryDTO(
+                        title: title,
+                        summary: summary,
+                        date: Date(),
+                        category: .none)
+                    )
+                }) {
+                    Text("Save")
+                }
+            }
             ToolbarItemGroup(placement: .keyboard) {
                 Button {
                     insertBullet()
@@ -43,6 +63,7 @@ struct NoteView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
 
     // MARK: - Formatting helpers
@@ -78,5 +99,6 @@ private struct RichTextEditor: View {
 }
 
 #Preview {
-    NoteView()
+    NoteView(onCancel: {}, onSave: {_ in })
 }
+

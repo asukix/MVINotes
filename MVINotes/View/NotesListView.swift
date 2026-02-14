@@ -13,52 +13,43 @@ struct NotesListView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                header
                 NotesFilterBar(
                     selected: store.filterMode,
                     onSelect: {
                         store.dispatch(.filter(category: $0))
                     }
                 )
-                items(
-                    items: store.state.filteredItems,
-                    store: store
-                )
+                List(store.state.filteredItems) { item in
+                    VStack {
+                        NoteSummaryView(
+                            data: item,
+                            store: store,
+                            favoriteTapped: { store.dispatch(.markAsFavoriteUnFavorite(id: $0)) }
+                        )
+                    }
+                    .padding(.vertical, 8)
+                }
+                .toolbar {
+                    Button("+New") {
+                        store.dispatch(.addTapped)
+                    }
+                }
                 Spacer()
             }
             .navigationTitle("Notes")
             .navigationBarTitleDisplayMode(.inline)
-        }
-    }
-    
-    private var header: some View {
-        HStack {
-            NavigationLink(destination: NoteView()) {
-                Text("+ New Note")
+            .navigationDestination(item: Binding(
+                get: { store.state.route },
+                set: { _ in }
+            )) { route in
+                switch route {
+                case .addNote:
+                    NoteView(
+                        onCancel: { store.dispatch(.addCanncelled) },
+                        onSave: { store.dispatch(.addSaved(item: $0)) }
+                    )
+                }
             }
-            Spacer()
-            Text("Notes")
-            Spacer()
-            Button(action: {
-            }) {
-                Image(systemName: "magnifyingglass")
-            }
-        }
-        .padding(.horizontal)
-    }
-    
-    private func items(
-        items: [NoteSummaryDTO],
-        store: NotesStore,
-    ) -> some View {
-        return List(items) { item in
-            VStack {
-                NoteSummaryView(
-                    data: item,
-                    store: store
-                )
-            }
-            .padding(.vertical, 8)
         }
     }
 }
@@ -72,3 +63,20 @@ struct NoteItem: Identifiable {
 #Preview {
     NotesListView()
 }
+
+//    
+//    private var header: some View {
+//        HStack {
+////            NavigationLink(destination: NoteView()) {
+////                Text("+ New Note")
+////            }
+//            Spacer()
+//            Text("Notes")
+//            Spacer()
+//            Button(action: {
+//            }) {
+//                Image(systemName: "magnifyingglass")
+//            }
+//        }
+//        .padding(.horizontal)
+//    }

@@ -6,12 +6,13 @@
 //
 import Foundation
 
-enum NoteListAction {
+enum NotesAction {
     case newNote
-    case markAsFavoriteAction
+    case markAsFavoriteUnFavorite(id: UUID)
     case searchAction(query: String)
-    case edit
     case delete(id: UUID)
     case filter(category: NoteCategory)
-    case add(item: NoteSummaryDTO)
+    case addTapped
+    case addCanncelled
+    case addSaved(item: NoteSummaryDTO)
 }
