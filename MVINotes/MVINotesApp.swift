@@ -11,10 +11,18 @@ import CoreData
 @main
 struct MVINotesApp: App {
     let persistenceController = PersistenceController.shared
+    
+    var repository: NotesRepositoryProtocol {
+        NotesRepository(context: persistenceController.container.viewContext)
+    }
 
     var body: some Scene {
         WindowGroup {
-            NotesListView()
+            NotesListView(store: NotesStore(repository: repository))
+                .environment(
+                    \.managedObjectContext,
+                     persistenceController.container.viewContext
+                )
         }
     }
 }

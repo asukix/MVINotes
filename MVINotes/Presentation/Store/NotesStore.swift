@@ -11,7 +11,13 @@ import Observation
 final class NotesStore {
     private(set) var state = NoteSummaryState()
     private let controller = NoteListController()
-    private let reducer = NoteListReducer()
+    private let reducer: NoteListReducer
+    let repository: NotesRepositoryProtocol
+    
+    init(repository: NotesRepositoryProtocol) {
+        self.repository = repository
+        self.reducer = NoteListReducer(repository: repository)
+    }
     
     var filterMode: NoteCategory {
         state.filterMode

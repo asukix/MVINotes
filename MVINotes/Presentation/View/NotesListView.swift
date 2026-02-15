@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NotesListView: View {
-    @State private var store = NotesStore()
+    @State var store: NotesStore
     
     var body: some View {
         NavigationStack {
@@ -24,7 +24,15 @@ struct NotesListView: View {
                         NoteSummaryView(
                             data: item,
                             store: store,
-                            favoriteTapped: { store.dispatch(.markAsFavoriteUnFavorite(id: $0)) }
+                            favoriteTapped: {
+                                store
+                                    .dispatch(
+                                        .markAsFavoriteUnFavorite(
+                                            id: $0,
+                                            isFavorite: item.category != NoteCategory.favorites
+                                        )
+                                    )
+                            }
                         )
                     }
                     .padding(.vertical, 8)
@@ -35,6 +43,9 @@ struct NotesListView: View {
                     }
                 }
                 Spacer()
+            }
+            .onAppear() {
+                store.dispatch(.onAppear)
             }
             .navigationTitle("Notes")
             .navigationBarTitleDisplayMode(.inline)
@@ -54,14 +65,8 @@ struct NotesListView: View {
     }
 }
 
-struct NoteItem: Identifiable {
-    let id: UUID = UUID()
-    let title: String
-    let summary: String
-}
-
 #Preview {
-    NotesListView()
+//    NotesListView(store: NotesStore())
 }
 
 //    

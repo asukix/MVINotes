@@ -7,8 +7,9 @@
 import Foundation
 
 enum NotesAction {
+    case onAppear
     case newNote
-    case markAsFavoriteUnFavorite(id: UUID)
+    case markAsFavoriteUnFavorite(id: UUID, isFavorite: Bool)
     case searchAction(query: String)
     case delete(id: UUID)
     case filter(category: NoteCategory)
