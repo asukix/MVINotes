@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct NoteSummaryDTO: Identifiable {
+struct NoteSummaryDTO: Identifiable, Hashable, Equatable {
     let id: UUID
     var title: String
     var summary: String
@@ -27,9 +27,18 @@ struct NoteSummaryDTO: Identifiable {
         self.category = category
     }
     
+    static func == (lhs: NoteSummaryDTO, rhs: NoteSummaryDTO) -> Bool {
+        return lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     var dateString: String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy.MMM.dd"
         return formatter.string(from: self.date)        
     }
 }
+

@@ -16,7 +16,7 @@ struct NotesListView: View {
                 NotesFilterBar(
                     selected: store.filterMode,
                     onSelect: {
-                        store.dispatch(.filter(category: $0))
+                        store.send(.filter(category: $0))
                     }
                 )
                 List(store.state.filteredItems) { item in
@@ -26,7 +26,7 @@ struct NotesListView: View {
                             store: store,
                             favoriteTapped: {
                                 store
-                                    .dispatch(
+                                    .send(
                                         .markAsFavoriteUnFavorite(
                                             id: $0,
                                             isFavorite: item.category != NoteCategory.favorites
@@ -39,13 +39,13 @@ struct NotesListView: View {
                 }
                 .toolbar {
                     Button("+New") {
-                        store.dispatch(.addTapped)
+                        store.send(.addTapped)
                     }
                 }
                 Spacer()
             }
             .onAppear() {
-                store.dispatch(.onAppear)
+                store.send(.onAppear)
             }
             .navigationTitle("Notes")
             .navigationBarTitleDisplayMode(.inline)
@@ -56,8 +56,8 @@ struct NotesListView: View {
                 switch route {
                 case .addNote:
                     NoteView(
-                        onCancel: { store.dispatch(.addCanncelled) },
-                        onSave: { store.dispatch(.addSaved(item: $0)) }
+                        onCancel: { store.send(.addCanncelled) },
+                        onSave: { store.send(.addSaved(item: $0)) }
                     )
                 }
             }

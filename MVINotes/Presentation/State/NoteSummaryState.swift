@@ -8,28 +8,10 @@
 import Foundation
 
 struct NoteSummaryState {
-    var items: [NoteSummaryDTO] = [
-        NoteSummaryDTO(
-            title: "Practice MVI",
-            summary: "Summary 1",
-            date: Date(),
-            category: .favorites
-        ),
-        NoteSummaryDTO(
-            title: "Practice CoreData",
-            summary: "Summary 2",
-            date: Date(),
-            category: .none
-        ),
-        NoteSummaryDTO(
-            title: "Practice MVVM",
-            summary: "Summary 3",
-            date: Date(),
-            category: .none
-        )
-    ]
+    var items: [NoteSummaryDTO] = []
     var filterMode: NoteCategory = .all
     var route: NotesRoute? = nil
+    var deletingItems: Set<NoteSummaryDTO> = []
     
     var filteredItems: [NoteSummaryDTO] {
         switch filterMode {

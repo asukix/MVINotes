@@ -23,11 +23,29 @@ final class NotesStore {
         state.filterMode
     }
     
-    func dispatch(_ action: NotesAction) {
+    func send(_ action: NotesAction) {
         controller.process(action) { [weak self] result in
             guard let self else { return }
-            self.reducer.reduce(state: &self.state, action: action)
+            
+            switch action {
+            case .deleteTapped(let id):
+                Task {
+                    do {
+                        try self.repository.deleteItem(id: id)
+                        await MainActor.run {
+                            self.reducer.reduce(state: &self.state, action: .deleteSucceeded(id: id))
+                        }
+                    } catch {
+                        await MainActor.run {
+                            self.reducer.reduce(state: &self.state, action: .deleteFailed(id: id, error: error))
+                        }
+                    }
+                }
+            default:
+                break
+            }
         }
+        self.reducer.reduce(state: &self.state, action: action)
     }
     
 }

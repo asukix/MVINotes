@@ -15,13 +15,8 @@ struct NoteListReducer {
             load(state: &state)
         case .filter(let category):
             state.filterMode = category
-        case .delete(let id):
-            do {
-                try repository.deleteItem(id: id)
-                load(state: &state)
-            } catch {
-                NSLog("Error while deleting from db: \(error)")
-            }
+        case .deleteTapped, .deleteFailed, .deleteSucceeded:
+            reduceDeleteAction(state: &state, action: action)
         case .markAsFavoriteUnFavorite(let id, let isFavorite):
             do {
                 try repository.setFavorite(id: id, isFavorite: isFavorite)
@@ -29,6 +24,46 @@ struct NoteListReducer {
             } catch {
                 NSLog("Error while saving to db: \(error)")
             }
+        case .addTapped, .addCanncelled, .addSaved:
+            reduceAddAction(state: &state, action: action)
+        default:
+            break
+        }
+        
+    }
+    
+    private func reduceDeleteAction(
+        state: inout NoteSummaryState,
+        action: NotesAction
+    ) {
+        switch action {
+        case .deleteTapped(let id):
+            guard let item = state.items.first(where: { $0.id == id }),
+                  let idx = state.items.firstIndex(of: item)
+            else { return }
+            state.deletingItems.insert(item)
+            state.items.remove(at: idx)
+        case .deleteFailed(let id, let error):
+            if let deletingItem = state.deletingItems.first(where: { $0.id == id }) {
+                state.items.append(deletingItem)
+                state.deletingItems.remove(deletingItem)
+                NSLog("Error while deleting item: \(error)")
+            }
+        case .deleteSucceeded(let id):
+            if let deletingItem = state.deletingItems.first(where: { $0.id == id }) {
+                state.deletingItems.remove(deletingItem)
+            }
+            
+        default:
+            break
+        }
+    }
+    
+    private func reduceAddAction(
+        state: inout NoteSummaryState,
+        action: NotesAction
+    ) {
+        switch action {
         case .addTapped:
             state.route = .addNote
         case .addCanncelled:
@@ -41,11 +76,12 @@ struct NoteListReducer {
                 NSLog("Error while saving to db: \(error)")
             }
             state.route = nil
+            
         default:
             break
         }
-        
     }
+
     
     private func load(state: inout NoteSummaryState) {
         do {

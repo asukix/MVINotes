@@ -11,7 +11,9 @@ enum NotesAction {
     case newNote
     case markAsFavoriteUnFavorite(id: UUID, isFavorite: Bool)
     case searchAction(query: String)
-    case delete(id: UUID)
+    case deleteTapped(id: UUID)
+    case deleteSucceeded(id: UUID)
+    case deleteFailed(id: UUID, error: Error)
     case filter(category: NoteCategory)
     case addTapped
     case addCanncelled
