@@ -1,16 +1,16 @@
 //
-//  NoteCategory.swift
+//  NotesCategory.swift
 //  MVINotes
 //
 //  Created by Seng Phrakonkham on 2026. 02. 09..
 //
 
-enum NoteCategory: String, Equatable, CaseIterable {
+enum NotesCategory: String, Equatable, CaseIterable {
     case all = "All"
     case none = "None"
     case favorites = "Favorites"
     
-    static func category(from category: String?) -> NoteCategory {
+    static func category(from category: String?) -> NotesCategory {
         guard let category else {
             return .none
         }
@@ -27,7 +27,11 @@ enum NoteCategory: String, Equatable, CaseIterable {
         }
     }
     
-    static func favoriteCategory(isFavoirte: Bool) -> String {
-        isFavoirte ? self.favorites.rawValue : self.none.rawValue
+    static func favoriteCategory(isFavoirte: Bool) -> NotesCategory {
+        isFavoirte ? self.favorites : self.none
+    }
+    
+    static func favoriteCategoryAsString(isFavoirte: Bool) -> String {
+        favoriteCategory(isFavoirte: isFavoirte).rawValue
     }
 }

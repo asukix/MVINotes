@@ -9,94 +9,142 @@ import Foundation
 struct NoteListReducer {
     let repository: NotesRepositoryProtocol
     
-    func reduce(state: inout NoteSummaryState, action: NotesAction) {
-        switch action {
-        case .onAppear:
-            load(state: &state)
-        case .filter(let category):
-            state.filterMode = category
-        case .deleteTapped, .deleteFailed, .deleteSucceeded:
-            reduceDeleteAction(state: &state, action: action)
-        case .markAsFavoriteUnFavorite(let id, let isFavorite):
-            do {
-                try repository.setFavorite(id: id, isFavorite: isFavorite)
-                load(state: &state)
-            } catch {
-                NSLog("Error while saving to db: \(error)")
+    func reduce(
+        state: inout NoteSummaryState,
+        result: NotesResult
+    ) {
+        switch result {
+        case .navigation(let nav):
+            reduceNavigation(state: &state, navigation: nav)
+
+        case .add(let add):
+            reduceAdd(state: &state, add: add)
+            
+        case .delete(let delete):
+            reduceDelete(state: &state, delete: delete)
+            
+        case .load(let load):
+            reduceLoad(state: &state, load: load)
+            
+        case .filter(let filter):
+            switch filter {
+            case .selected(let category):
+                state.filterMode = category
             }
-        case .addTapped, .addCanncelled, .addSaved:
-            reduceAddAction(state: &state, action: action)
-        default:
+        
+        case .favorite(let favorite):
+            reduceFavorite(
+                state: &state,
+                favorite: favorite,
+            )
+            
+        case .save:
             break
         }
-        
     }
     
-    private func reduceDeleteAction(
+    private func reduceAdd(
         state: inout NoteSummaryState,
-        action: NotesAction
+        add: NotesResult.Add
     ) {
-        switch action {
-        case .deleteTapped(let id):
+        switch add {
+        case .adding(let item):
+            state.addingItem = item
+            
+        case .addedSuccessfully:
+            state.addingItem = nil
+            state.route = nil
+            
+        case .addFailed(let item, let error):
+            if let idx = state.items.firstIndex(of: item) {
+                state.items.remove(at: idx)
+                state.route = nil
+            }
+            NSLog("Error while adding item: \(error)")
+        }
+    }
+    
+    private func reduceNavigation(
+        state: inout NoteSummaryState,
+        navigation: NotesResult.Navigation
+    ) {
+        switch navigation {
+        case .navigatingToDetail:
+            state.route = .addNote
+            
+        case .navigateToBackToList:
+            state.route = nil
+            
+        case .routeChanged(let route):
+            state.route = route
+        }
+    }
+    
+    private func reduceDelete(
+        state: inout NoteSummaryState,
+        delete: NotesResult.Delete
+    ) {
+        switch delete {
+        case .deleting(let id):
             guard let item = state.items.first(where: { $0.id == id }),
                   let idx = state.items.firstIndex(of: item)
             else { return }
             state.deletingItems.insert(item)
             state.items.remove(at: idx)
+            
         case .deleteFailed(let id, let error):
             if let deletingItem = state.deletingItems.first(where: { $0.id == id }) {
                 state.items.append(deletingItem)
                 state.deletingItems.remove(deletingItem)
                 NSLog("Error while deleting item: \(error)")
             }
+            
         case .deleteSucceeded(let id):
             if let deletingItem = state.deletingItems.first(where: { $0.id == id }) {
                 state.deletingItems.remove(deletingItem)
             }
-            
-        default:
-            break
         }
     }
     
-    private func reduceAddAction(
+    private func reduceLoad(
         state: inout NoteSummaryState,
-        action: NotesAction
+        load: NotesResult.Load
     ) {
-        switch action {
-        case .addTapped:
-            state.route = .addNote
-        case .addCanncelled:
-            state.route = nil
-        case .addSaved(let item):
-            do {
-                try repository.addItem(item: item)
-                load(state: &state)
-            } catch {
-                NSLog("Error while saving to db: \(error)")
-            }
-            state.route = nil
+        switch load {
+        case .loading:
+            NSLog("Loading notes...")
             
-        default:
-            break
-        }
-    }
-
-    
-    private func load(state: inout NoteSummaryState) {
-        do {
-            state.items = try repository.fetchAll()
-        } catch {
-            NSLog("Error while fetching from db: \(error)")
+        case .loaded(let items):
+            state.items = items
+            
+        case .loadingFailed:
+            NSLog("Error while loading notes")
         }
     }
     
-    private func markAsFavorite(id: UUID, state: inout NoteSummaryState) {
-        guard let idx = state.items.firstIndex(where: { $0.id == id }) else {
-            return
+    private func reduceFavorite(
+        state: inout NoteSummaryState,
+        favorite: NotesResult.Favorite,
+    ) {
+        switch favorite {
+        case .settingFavorite(let id, let category):
+            guard let idx = state.items.firstIndex(where: { $0.id == id }) else {
+                return
+            }
+            state.favoritingItemId = id
+            state.items[idx].category = category
+            
+        case .setFavoriteSuccessfully(let id, let isFavorite):
+            state.favoritingItemId = nil
+            
+        case .setFavoriteFailed(let id, let category, let error):
+            NSLog("Error while setting favorite: \(error)")
+            guard let idx = state.items.firstIndex(where: { $0.id == id }) else {
+                return
+            }
+            state.items[idx].category = category
+            state.favoritingItemId = nil
         }
-        
-        let isFavorite = state.items[idx].category == NoteCategory.favorites
-        state.items[idx].category = isFavorite ? .none : NoteCategory.favorites
     }
 }
+

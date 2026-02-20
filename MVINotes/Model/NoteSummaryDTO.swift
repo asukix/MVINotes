@@ -11,14 +11,14 @@ struct NoteSummaryDTO: Identifiable, Hashable, Equatable {
     var title: String
     var summary: String
     var date: Date
-    var category: NoteCategory
+    var category: NotesCategory
     
     init(
         id: UUID = UUID(),
         title: String,
         summary: String,
         date: Date,
-        category: NoteCategory
+        category: NotesCategory
     ) {
         self.id = id
         self.title = title
@@ -28,11 +28,19 @@ struct NoteSummaryDTO: Identifiable, Hashable, Equatable {
     }
     
     static func == (lhs: NoteSummaryDTO, rhs: NoteSummaryDTO) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.id == rhs.id &&
+               lhs.title == rhs.title &&
+               lhs.summary == rhs.summary &&
+               lhs.date == rhs.date &&
+               lhs.category == rhs.category
     }
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+        hasher.combine(title)
+        hasher.combine(summary)
+        hasher.combine(date)
+        hasher.combine(category)
     }
     
     var dateString: String {

@@ -9,9 +9,11 @@ import Foundation
 
 struct NoteSummaryState {
     var items: [NoteSummaryDTO] = []
-    var filterMode: NoteCategory = .all
+    var filterMode: NotesCategory = .all
     var route: NotesRoute? = nil
     var deletingItems: Set<NoteSummaryDTO> = []
+    var addingItem: NoteSummaryDTO? = nil
+    var favoritingItemId: UUID? = nil
     
     var filteredItems: [NoteSummaryDTO] {
         switch filterMode {

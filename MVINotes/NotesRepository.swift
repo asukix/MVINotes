@@ -33,7 +33,7 @@ final class NotesRepository: NotesRepositoryProtocol {
             let title = entity.title ?? ""
             let summary = entity.summary ?? ""
             let date = entity.date ?? Date()
-            let category: NoteCategory = NoteCategory.category(from: entity.category)
+            let category: NotesCategory = NotesCategory.category(from: entity.category)
             
             return NoteSummaryDTO(
                 id: id,
@@ -72,7 +72,7 @@ final class NotesRepository: NotesRepositoryProtocol {
         req.fetchLimit = 1
         
         if let entity = try context.fetch(req).first {
-            entity.category = NoteCategory.favoriteCategory(isFavoirte: isFavorite)
+            entity.category = NotesCategory.favoriteCategoryAsString(isFavoirte: isFavorite)
             try context.save()
         }
     }

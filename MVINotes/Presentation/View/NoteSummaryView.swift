@@ -39,7 +39,7 @@ struct NoteSummaryView: View{
                 .buttonStyle(.borderless)
                 
                 Button(action: {
-                    store.send(.deleteTapped(id: data.id))
+                    store.send(.deleteAction(id: data.id))
                 }) {
                     Image(systemName: "trash")
                         .imageScale(.medium)

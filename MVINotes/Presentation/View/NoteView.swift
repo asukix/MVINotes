@@ -10,7 +10,7 @@ struct NoteView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var title: String = ""
     @State private var summary: String = ""
-    let onCancel: () -> Void
+    let onBack: () -> Void
     let onSave: (NoteSummaryDTO) -> Void
 
     
@@ -37,7 +37,7 @@ struct NoteView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    onCancel()
+                    onBack()
                     dismiss()
                 } label: {
                     Label("Back", systemImage: "chevron.left")
@@ -99,6 +99,6 @@ private struct RichTextEditor: View {
 }
 
 #Preview {
-    NoteView(onCancel: {}, onSave: {_ in })
+    NoteView(onBack: {}, onSave: {_ in })
 }
 

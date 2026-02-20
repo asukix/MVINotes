@@ -5,7 +5,7 @@
 //  Created by Seng Phrakonkham on 2026. 02. 13..
 //
 
-enum NotesRoute: Equatable, Identifiable {
+enum NotesRoute: Equatable, Identifiable, Hashable {
     case addNote
     
     var id: String {

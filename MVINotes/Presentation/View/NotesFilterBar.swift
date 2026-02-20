@@ -7,8 +7,8 @@
 import SwiftUI
 
 struct NotesFilterBar: View {
-    let selected: NoteCategory
-    let onSelect: (NoteCategory) -> Void
+    let selected: NotesCategory
+    let onSelect: (NotesCategory) -> Void
     
     var body: some View {
         Picker(
@@ -19,7 +19,7 @@ struct NotesFilterBar: View {
                     set: { onSelect($0) }
                 )
         ) {
-            ForEach(NoteCategory.allCases, id: \.self) { category in
+            ForEach(NotesCategory.allCases, id: \.self) { category in
                 Text(category.rawValue)
                     .tag(category)
             }

@@ -16,7 +16,7 @@ struct NotesListView: View {
                 NotesFilterBar(
                     selected: store.filterMode,
                     onSelect: {
-                        store.send(.filter(category: $0))
+                        store.send(.filterAction(category: $0))
                     }
                 )
                 List(store.state.filteredItems) { item in
@@ -26,11 +26,9 @@ struct NotesListView: View {
                             store: store,
                             favoriteTapped: {
                                 store
-                                    .send(
-                                        .markAsFavoriteUnFavorite(
+                                    .send(.favoriteAction(
                                             id: $0,
-                                            isFavorite: item.category != NoteCategory.favorites
-                                        )
+                                            isFavorite: item.category != NotesCategory.favorites)
                                     )
                             }
                         )
@@ -39,25 +37,25 @@ struct NotesListView: View {
                 }
                 .toolbar {
                     Button("+New") {
-                        store.send(.addTapped)
+                        store.send(.navigateToNote(id: nil))
                     }
                 }
                 Spacer()
             }
             .onAppear() {
-                store.send(.onAppear)
+                store.send(.load)
             }
             .navigationTitle("Notes")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationDestination(item: Binding(
+            .navigationDestination(item: Binding<NotesRoute?>(
                 get: { store.state.route },
                 set: { _ in }
             )) { route in
                 switch route {
                 case .addNote:
                     NoteView(
-                        onCancel: { store.send(.addCanncelled) },
-                        onSave: { store.send(.addSaved(item: $0)) }
+                        onBack: { store.send(.navigateBackToList) },
+                        onSave: { store.send(.itemAddAction(item: $0)) }
                     )
                 }
             }
