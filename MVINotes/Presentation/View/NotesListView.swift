@@ -34,10 +34,13 @@ struct NotesListView: View {
                         )
                     }
                     .padding(.vertical, 8)
+                    .onTapGesture {
+                        store.send(.navigateToNote(item: item))
+                    }
                 }
                 .toolbar {
                     Button("+New") {
-                        store.send(.navigateToNote(id: nil))
+                        store.send(.navigateToNote())
                     }
                 }
                 Spacer()
@@ -52,8 +55,11 @@ struct NotesListView: View {
                 set: { _ in }
             )) { route in
                 switch route {
-                case .addNote:
+                case .noteDetails(let item):
                     NoteView(
+                        title: item?.title,
+                        summary: item?.summary,
+                        details: item?.details,
                         onBack: { store.send(.navigateBackToList) },
                         onSave: { store.send(.itemAddAction(item: $0)) }
                     )

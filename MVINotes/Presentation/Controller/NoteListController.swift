@@ -25,8 +25,8 @@ final class NoteListController {
         case .filterAction(let category):
             emit(.filter(.selected(category: category)))
             
-        case .navigateToNote(let id):
-            emit(.navigation(.navigatingToDetail(id: id)))
+        case .navigateToNote(let item):
+            emit(.navigation(.navigatingToDetail(item: item)))
             
         case .navigateBackToList:
             emit(.navigation(.navigateToBackToList))
@@ -40,8 +40,6 @@ final class NoteListController {
         case .favoriteAction(let id, let isFavorite):
             favoriteTapped(id: id, isFavorite: isFavorite, emit: emit)
             
-        case .noteSaveAction(item: let item):
-            break
         }
     }
     
@@ -64,7 +62,7 @@ final class NoteListController {
     }
     
     private func itemAddAction(
-        item: NoteSummaryDTO,
+        item: NoteItemDTO,
         emit: @escaping(
             NotesResult
         ) -> Void

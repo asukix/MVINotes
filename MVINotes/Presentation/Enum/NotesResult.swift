@@ -8,9 +8,9 @@ import Foundation
 
 enum NotesResult {
     enum Add {
-        case adding(item: NoteSummaryDTO)
-        case addedSuccessfully(item: NoteSummaryDTO)
-        case addFailed(item: NoteSummaryDTO, error: Error)
+        case adding(item: NoteItemDTO)
+        case addedSuccessfully(item: NoteItemDTO)
+        case addFailed(item: NoteItemDTO, error: Error)
     }
 
     enum Delete {
@@ -21,18 +21,18 @@ enum NotesResult {
 
     enum Load {
         case loading
-        case loaded(items: [NoteSummaryDTO])
+        case loaded(items: [NoteItemDTO])
         case loadingFailed(error: Error)
     }
 
     enum Save {
-        case saving(item: NoteSummaryDTO)
-        case saved(item: NoteSummaryDTO)
-        case savingFailed(item: NoteSummaryDTO, error: Error)
+        case saving(item: NoteItemDTO)
+        case saved(item: NoteItemDTO)
+        case savingFailed(item: NoteItemDTO, error: Error)
     }
 
     enum Navigation {
-        case navigatingToDetail(id: UUID?)
+        case navigatingToDetail(item: NoteItemDTO?)
         case navigateToBackToList
         case routeChanged(NotesRoute?)
     }

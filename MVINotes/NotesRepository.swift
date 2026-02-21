@@ -8,8 +8,8 @@ import Foundation
 import CoreData
 
 protocol NotesRepositoryProtocol {
-    func fetchAll() throws -> [NoteSummaryDTO]
-    func addItem(item: NoteSummaryDTO) throws
+    func fetchAll() throws -> [NoteItemDTO]
+    func addItem(item: NoteItemDTO) throws
     func deleteItem(id: UUID) throws
     func setFavorite(id: UUID, isFavorite: Bool) throws
 }
@@ -21,7 +21,7 @@ final class NotesRepository: NotesRepositoryProtocol {
         self.context = context
     }
     
-    func fetchAll() throws -> [NoteSummaryDTO] {
+    func fetchAll() throws -> [NoteItemDTO] {
         let req = NoteItem.fetchRequest()
         req.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
@@ -34,23 +34,26 @@ final class NotesRepository: NotesRepositoryProtocol {
             let summary = entity.summary ?? ""
             let date = entity.date ?? Date()
             let category: NotesCategory = NotesCategory.category(from: entity.category)
+            let details = entity.note ?? ""
             
-            return NoteSummaryDTO(
+            return NoteItemDTO(
                 id: id,
                 title: title,
                 summary: summary,
                 date: date,
-                category: category
+                category: category,
+                details: details
             )
         }
     }
 
-    func addItem(item: NoteSummaryDTO) throws {
+    func addItem(item: NoteItemDTO) throws {
         let entity = NoteItem(context: context)
         entity.id = item.id
         entity.title = item.title
         entity.summary = item.summary
         entity.date = item.date
+        entity.note = item.details
         
         try context.save()
     }

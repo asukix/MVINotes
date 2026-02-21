@@ -10,9 +10,8 @@ enum NotesAction {
     case load
     case favoriteAction(id: UUID, isFavorite: Bool)
     case deleteAction(id: UUID)
-    case itemAddAction(item: NoteSummaryDTO)
+    case itemAddAction(item: NoteItemDTO)
     case filterAction(category: NotesCategory)
-    case navigateToNote(id: UUID?)
+    case navigateToNote(item: NoteItemDTO? = nil)
     case navigateBackToList
-    case noteSaveAction(item: NoteSummaryDTO)
 }

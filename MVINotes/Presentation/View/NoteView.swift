@@ -8,16 +8,27 @@ import SwiftUI
 
 struct NoteView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var title: String = ""
-    @State private var summary: String = ""
+    @State var title: String
+    @State var summary: String
+    @State var details: AttributedString
     let onBack: () -> Void
-    let onSave: (NoteSummaryDTO) -> Void
+    let onSave: (NoteItemDTO) -> Void
 
-    
-    @State private var noteText: AttributedString = {
-        var a = AttributedString("Add your note…")
-        return a
-    }()
+    init (
+        title: String?,
+        summary: String?,
+        details: String?,
+        onBack: @escaping () -> Void,
+        onSave: @escaping (
+            NoteItemDTO
+        ) -> Void
+    ) {
+        self.title = title ?? ""
+        self.summary = summary ?? ""
+        self.details = AttributedString(details ?? "")
+        self.onBack = onBack
+        self.onSave = onSave
+    }
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -29,7 +40,7 @@ struct NoteView: View {
                     .foregroundStyle(.secondary)
                     .frame(alignment: .leading)
                 Divider()
-                RichTextEditor(text: $noteText)
+                RichTextEditor(text: $details)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
             .padding()
@@ -45,11 +56,13 @@ struct NoteView: View {
             }
             ToolbarItemGroup(placement: .automatic) {
                 Button(action: {
-                    onSave(NoteSummaryDTO(
+                    onSave(NoteItemDTO(
                         title: title,
                         summary: summary,
                         date: Date(),
-                        category: .none)
+                        category: .none,
+                        details: details.description
+                    )
                     )
                 }) {
                     Text("Save")
@@ -68,10 +81,10 @@ struct NoteView: View {
 
     // MARK: - Formatting helpers
     private func insertBullet() {
-        var new = noteText
+        var new = details
         if !new.characters.isEmpty, new.characters.last != "\n" { new.append(AttributedString("\n")) }
         new.append(AttributedString("\u{2022} "))
-        noteText = new
+        details = new
     }
 }
 
@@ -99,6 +112,11 @@ private struct RichTextEditor: View {
 }
 
 #Preview {
-    NoteView(onBack: {}, onSave: {_ in })
+    NoteView(
+        title: "Title",
+        summary: "Summary",
+        details: "details",
+        onBack: {},
+        onSave: {_ in })
 }
 

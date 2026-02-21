@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NoteSummaryView: View{
-    let data: NoteSummaryDTO
+    let data: NoteItemDTO
     let store: NotesStore
     let favoriteTapped: (UUID) -> Void
     

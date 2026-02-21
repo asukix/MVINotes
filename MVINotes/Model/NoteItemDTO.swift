@@ -6,28 +6,31 @@
 //
 import Foundation
 
-struct NoteSummaryDTO: Identifiable, Hashable, Equatable {
+struct NoteItemDTO: Identifiable, Hashable, Equatable {
     let id: UUID
     var title: String
     var summary: String
     var date: Date
     var category: NotesCategory
+    var details: String
     
     init(
         id: UUID = UUID(),
         title: String,
         summary: String,
         date: Date,
-        category: NotesCategory
+        category: NotesCategory,
+        details: String = ""
     ) {
         self.id = id
         self.title = title
         self.summary = summary
         self.date = date
         self.category = category
+        self.details = details
     }
     
-    static func == (lhs: NoteSummaryDTO, rhs: NoteSummaryDTO) -> Bool {
+    static func == (lhs: NoteItemDTO, rhs: NoteItemDTO) -> Bool {
         return lhs.id == rhs.id &&
                lhs.title == rhs.title &&
                lhs.summary == rhs.summary &&

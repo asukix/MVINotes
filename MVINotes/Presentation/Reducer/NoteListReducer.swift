@@ -69,8 +69,8 @@ struct NoteListReducer {
         navigation: NotesResult.Navigation
     ) {
         switch navigation {
-        case .navigatingToDetail:
-            state.route = .addNote
+        case .navigatingToDetail(let item):
+            state.route = .noteDetails(item: item)
             
         case .navigateToBackToList:
             state.route = nil

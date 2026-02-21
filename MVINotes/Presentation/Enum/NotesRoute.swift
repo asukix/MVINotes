@@ -6,11 +6,11 @@
 //
 
 enum NotesRoute: Equatable, Identifiable, Hashable {
-    case addNote
+    case noteDetails(item: NoteItemDTO?)
     
     var id: String {
         switch self {
-        case .addNote: return "addNote"
+        case .noteDetails: return "noteDetails"
         }
     }
 }
