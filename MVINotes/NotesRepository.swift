@@ -10,6 +10,7 @@ import CoreData
 protocol NotesRepositoryProtocol {
     func fetchAll() throws -> [NoteItemDTO]
     func addItem(item: NoteItemDTO) throws
+    func updateItem(item: NoteItemDTO) throws
     func deleteItem(id: UUID) throws
     func setFavorite(id: UUID, isFavorite: Bool) throws
 }
@@ -56,6 +57,22 @@ final class NotesRepository: NotesRepositoryProtocol {
         entity.note = item.details
         
         try context.save()
+    }
+
+    func updateItem(item: NoteItemDTO) throws {
+        let req = NoteItem.fetchRequest()
+        req.predicate = NSPredicate(format: "id == %@", item.id as CVarArg)
+        req.fetchLimit = 1
+        
+        if let entity = try context.fetch(req).first {
+            entity.title = item.title
+            entity.summary = item.summary
+            entity.date = item.date
+            entity.category = item.category.rawValue
+            entity.note = item.details
+            
+            try context.save()
+        }
     }
 
     func deleteItem(id: UUID) throws {

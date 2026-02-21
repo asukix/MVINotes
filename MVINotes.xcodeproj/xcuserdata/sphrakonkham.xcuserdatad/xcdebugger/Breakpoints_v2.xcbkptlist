@@ -30,8 +30,8 @@
             filePath = "MVINotes/Presentation/View/NoteView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "MVINotes/Presentation/Controller/NoteListController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "favoriteTapped(id:isFavorite:emit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "MVINotes/Presentation/Controller/NoteListController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "favoriteTapped(id:isFavorite:emit:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "MVINotes/Presentation/Reducer/NoteListReducer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
             landmarkName = "reduceFavorite(state:favorite:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "MVINotes/Presentation/Reducer/NoteListReducer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
             landmarkName = "reduceFavorite(state:favorite:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,10 +158,118 @@
             filePath = "MVINotes/Presentation/Reducer/NoteListReducer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "reduceFavorite(state:favorite:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F519DDB8-20F0-4B97-B212-4DFB3CBF3E89 - 8984728bd66cda91"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "MVINotes.NoteListReducer.reduceFavorite(state: inout MVINotes.NoteSummaryState, favorite: MVINotes.NotesResult.Favorite) -&gt; ()"
+                  moduleName = "MVINotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sphrakonkham/Documents/Repo/Pet/MVINotes/MVINotes/Presentation/Reducer/NoteListReducer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129">
+               </Location>
+               <Location
+                  uuid = "F519DDB8-20F0-4B97-B212-4DFB3CBF3E89 - bc52fc98d54238e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (MVINotes.NoteItemDTO) -&gt; Swift.Bool in MVINotes.NoteListReducer.reduceFavorite(state: inout MVINotes.NoteSummaryState, favorite: MVINotes.NotesResult.Favorite) -&gt; ()"
+                  moduleName = "MVINotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sphrakonkham/Documents/Repo/Pet/MVINotes/MVINotes/Presentation/Reducer/NoteListReducer.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "129"
+                  endingLineNumber = "129">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3CA51920-F657-4107-A835-CA31A3761281"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MVINotes/NotesRepository.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "addItem(item:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2C93BF20-61C3-4F61-BB40-E31CB6A07934"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MVINotes/Presentation/Controller/NoteListController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "load(emit:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D22F1BD3-BF18-4B92-982F-217B780FA03F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "MVINotes/Presentation/Controller/NoteListController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "itemAddAction(item:emit:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D22F1BD3-BF18-4B92-982F-217B780FA03F - 5f2d3acedec7b257"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for closure #1 () async -&gt; () in MVINotes.NoteListController.itemAddAction(item: MVINotes.NoteItemDTO, emit: (MVINotes.NotesResult) -&gt; ()) -&gt; ()"
+                  moduleName = "MVINotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sphrakonkham/Documents/Repo/Pet/MVINotes/MVINotes/Presentation/Controller/NoteListController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75">
+               </Location>
+               <Location
+                  uuid = "D22F1BD3-BF18-4B92-982F-217B780FA03F - c866a32d6696357"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (MVINotes.NoteItemDTO) -&gt; Swift.Bool in closure #1 () async -&gt; () in MVINotes.NoteListController.itemAddAction(item: MVINotes.NoteItemDTO, emit: (MVINotes.NotesResult) -&gt; ()) -&gt; ()"
+                  moduleName = "MVINotes.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sphrakonkham/Documents/Repo/Pet/MVINotes/MVINotes/Presentation/Controller/NoteListController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "75"
+                  endingLineNumber = "75">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

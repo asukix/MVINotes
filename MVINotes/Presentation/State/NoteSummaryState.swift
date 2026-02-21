@@ -12,7 +12,6 @@ struct NoteSummaryState {
     var filterMode: NotesCategory = .all
     var route: NotesRoute? = nil
     var deletingItems: Set<NoteItemDTO> = []
-    var addingItem: NoteItemDTO? = nil
     var favoritingItemId: UUID? = nil
     
     var filteredItems: [NoteItemDTO] {

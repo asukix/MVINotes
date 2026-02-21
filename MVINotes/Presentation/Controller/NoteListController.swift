@@ -67,17 +67,22 @@ final class NoteListController {
             NotesResult
         ) -> Void
     ) {
-        emit(.add(.adding(item: item)))
+        emit(.addOrUpdate(.saving(item: item)))
         
         Task {
             do {
-                try self.repository.addItem(item: item)
+                let items = try repository.fetchAll()
+                if items.contains(where: { $0.id == item.id }) {
+                    try self.repository.updateItem(item: item)
+                } else {
+                    try self.repository.addItem(item: item)
+                }
                 await MainActor.run {
-                    emit(.add(.addedSuccessfully(item: item)))
+                    emit(.addOrUpdate(.addedSuccessfully(item: item)))
                 }
             } catch {
                 await MainActor.run {
-                    emit(.add(.addFailed(item: item, error: error)))
+                    emit(.addOrUpdate(.addFailed(item: item, error: error)))
                 }
             }
         }

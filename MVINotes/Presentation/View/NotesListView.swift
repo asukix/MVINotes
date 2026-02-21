@@ -34,6 +34,7 @@ struct NotesListView: View {
                         )
                     }
                     .padding(.vertical, 8)
+                    .contentShape(Rectangle())
                     .onTapGesture {
                         store.send(.navigateToNote(item: item))
                     }
@@ -57,6 +58,7 @@ struct NotesListView: View {
                 switch route {
                 case .noteDetails(let item):
                     NoteView(
+                        id: item?.id,
                         title: item?.title,
                         summary: item?.summary,
                         details: item?.details,

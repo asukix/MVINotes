@@ -7,8 +7,8 @@
 import Foundation
 
 enum NotesResult {
-    enum Add {
-        case adding(item: NoteItemDTO)
+    enum AddOrUpdate {
+        case saving(item: NoteItemDTO)
         case addedSuccessfully(item: NoteItemDTO)
         case addFailed(item: NoteItemDTO, error: Error)
     }
@@ -47,7 +47,7 @@ enum NotesResult {
         case setFavoriteFailed(id: UUID, category: NotesCategory, error: Error)
     }
 
-    case add(Add)
+    case addOrUpdate(AddOrUpdate)
     case delete(Delete)
     case load(Load)
     case save(Save)

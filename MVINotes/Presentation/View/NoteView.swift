@@ -8,13 +8,15 @@ import SwiftUI
 
 struct NoteView: View {
     @Environment(\.dismiss) private var dismiss
+    let id: UUID
     @State var title: String
     @State var summary: String
-    @State var details: AttributedString
+    @State var details: String
     let onBack: () -> Void
     let onSave: (NoteItemDTO) -> Void
 
     init (
+        id: UUID?,
         title: String?,
         summary: String?,
         details: String?,
@@ -23,9 +25,10 @@ struct NoteView: View {
             NoteItemDTO
         ) -> Void
     ) {
+        self.id = id ?? UUID()
         self.title = title ?? ""
         self.summary = summary ?? ""
-        self.details = AttributedString(details ?? "")
+        self.details = details ?? ""
         self.onBack = onBack
         self.onSave = onSave
     }
@@ -40,7 +43,11 @@ struct NoteView: View {
                     .foregroundStyle(.secondary)
                     .frame(alignment: .leading)
                 Divider()
-                RichTextEditor(text: $details)
+                TextEditor(text: $details)
+                    .font(.body)
+                    .scrollContentBackground(.hidden)
+                    .background(.thinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
             }
             .padding()
@@ -55,14 +62,17 @@ struct NoteView: View {
                 }
             }
             ToolbarItemGroup(placement: .automatic) {
-                Button(action: {
-                    onSave(NoteItemDTO(
-                        title: title,
-                        summary: summary,
-                        date: Date(),
-                        category: .none,
-                        details: details.description
-                    )
+                Button(
+                    action: {
+                        onSave(
+                            NoteItemDTO(
+                                id: self.id,
+                                title: self.title,
+                                summary: self.summary,
+                                date: Date(),
+                                category: .none,
+                                details: self.details
+                            )
                     )
                 }) {
                     Text("Save")
@@ -81,38 +91,16 @@ struct NoteView: View {
 
     // MARK: - Formatting helpers
     private func insertBullet() {
-        var new = details
-        if !new.characters.isEmpty, new.characters.last != "\n" { new.append(AttributedString("\n")) }
-        new.append(AttributedString("\u{2022} "))
-        details = new
-    }
-}
-
-private struct RichTextEditor: View {
-    @Binding var text: AttributedString
-    @State private var backingText: String = ""
-
-    var body: some View {
-        TextEditor(text: $backingText)
-            .font(.body)
-            .scrollContentBackground(.hidden)
-            .background(.thinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .onAppear { backingText = String(text.characters) }
-            .onChange(of: text) { _, newValue in
-                let plain = String(newValue.characters)
-                if backingText != plain { backingText = plain }
-            }
-            .onChange(of: backingText) { _, newValue in
-                var updated = text
-                updated = AttributedString(newValue)
-                text = updated
-            }
+        if !details.isEmpty, details.last != "\n" {
+            details.append("\n")
+        }
+        details.append("\u{2022} ")
     }
 }
 
 #Preview {
     NoteView(
+        id: UUID(),
         title: "Title",
         summary: "Summary",
         details: "details",

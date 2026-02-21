@@ -17,8 +17,8 @@ struct NoteListReducer {
         case .navigation(let nav):
             reduceNavigation(state: &state, navigation: nav)
 
-        case .add(let add):
-            reduceAdd(state: &state, add: add)
+        case .addOrUpdate(let addOrUpdate):
+            reduceSave(state: &state, addOrUpdate: addOrUpdate)
             
         case .delete(let delete):
             reduceDelete(state: &state, delete: delete)
@@ -43,21 +43,19 @@ struct NoteListReducer {
         }
     }
     
-    private func reduceAdd(
+    private func reduceSave(
         state: inout NoteSummaryState,
-        add: NotesResult.Add
+        addOrUpdate: NotesResult.AddOrUpdate
     ) {
-        switch add {
-        case .adding(let item):
-            state.addingItem = item
+        switch addOrUpdate {
+        case .saving(let item):
+            NSLog("Adding item")
             
         case .addedSuccessfully:
-            state.addingItem = nil
             state.route = nil
             
         case .addFailed(let item, let error):
             if let idx = state.items.firstIndex(of: item) {
-                state.items.remove(at: idx)
                 state.route = nil
             }
             NSLog("Error while adding item: \(error)")

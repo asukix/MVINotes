@@ -31,11 +31,11 @@ struct NoteItemDTO: Identifiable, Hashable, Equatable {
     }
     
     static func == (lhs: NoteItemDTO, rhs: NoteItemDTO) -> Bool {
-        return lhs.id == rhs.id &&
-               lhs.title == rhs.title &&
-               lhs.summary == rhs.summary &&
-               lhs.date == rhs.date &&
-               lhs.category == rhs.category
+        return lhs.title == rhs.title &&
+        lhs.summary == rhs.summary &&
+        lhs.date == rhs.date &&
+        lhs.category == rhs.category &&
+        lhs.details == rhs.details
     }
 
     func hash(into hasher: inout Hasher) {
