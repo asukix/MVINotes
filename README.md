@@ -8,7 +8,7 @@ Simplified layer structure — no separate DataSource layer, as the app scope do
 
 **Testing**
 
-Separated integration tests
+Integration tests with in-memory CoreData stack, covering repository
 
 **Tech stack**
 
