@@ -4,7 +4,7 @@
 **Architecture**
 
 MVI (Store → Controller → Reducer) + Clean Architecture.
-Data layer skipped as it to avoid unnecesary abstaction in small app
+Simplified layer structure — no separate DataSource layer, as the app scope doesn't justify the abstraction cost
 
 **Testing**
 
