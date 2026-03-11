@@ -7,4 +7,9 @@ MVI (Store → Controller → Reducer) + Clean Architecture.
 Data layer skipped as it to avoid unnecesary abstaction in small app
 
 **Testing**
+
 Separated integration tests
+
+**Tech stack**
+
+Swift, SwiftUI, CoreData, XCTest,
