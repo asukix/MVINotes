@@ -43,6 +43,9 @@ struct NotesListView: View {
                     Button("+New") {
                         store.send(.navigateToNote())
                     }
+                    Button("Freez UI") {
+                        store.send(.freezUI)
+                    }
                 }
                 Spacer()
             }

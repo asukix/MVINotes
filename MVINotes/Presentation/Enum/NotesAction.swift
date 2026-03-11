@@ -14,4 +14,5 @@ enum NotesAction {
     case filterAction(category: NotesCategory)
     case navigateToNote(item: NoteItemDTO? = nil)
     case navigateBackToList
+    case freezUI
 }

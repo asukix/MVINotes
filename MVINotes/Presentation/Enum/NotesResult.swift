@@ -54,4 +54,5 @@ enum NotesResult {
     case navigation(Navigation)
     case filter(Filter)
     case favorite(Favorite)
+    case freezUI
 }

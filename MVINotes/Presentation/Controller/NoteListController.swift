@@ -39,7 +39,9 @@ final class NoteListController {
             
         case .favoriteAction(let id, let isFavorite):
             favoriteTapped(id: id, isFavorite: isFavorite, emit: emit)
-            
+        
+        case .freezUI:
+            emit(.freezUI)
         }
     }
     
@@ -51,12 +53,14 @@ final class NoteListController {
         emit(.load(.loading))
         Task {
             do {
-                let items = try repository.fetchAll()
+                let items = try await repository.fetchAll()
                 await MainActor.run {
                     emit(.load(.loaded(items: items)))
                 }
             } catch {
-                emit(.load(.loadingFailed(error: error)))
+                await MainActor.run {
+                    emit(.load(.loadingFailed(error: error)))
+                }
             }
         }
     }
@@ -71,11 +75,11 @@ final class NoteListController {
         
         Task {
             do {
-                let items = try repository.fetchAll()
+                let items = try await repository.fetchAll()
                 if items.contains(where: { $0.id == item.id }) {
-                    try self.repository.updateItem(item: item)
+                    try await self.repository.updateItem(item: item)
                 } else {
-                    try self.repository.addItem(item: item)
+                    try await self.repository.addItem(item: item)
                 }
                 await MainActor.run {
                     emit(.addOrUpdate(.addedSuccessfully(item: item)))
@@ -98,7 +102,7 @@ final class NoteListController {
 
         Task {
             do {
-                try self.repository.deleteItem(id: id)
+                try await self.repository.deleteItem(id: id)
                 await MainActor.run {
                     emit(.delete(.deleteSucceeded(id: id)))
                 }
@@ -121,7 +125,7 @@ final class NoteListController {
         emit(.favorite(.settingFavorite(id: id, category: category)))
         Task {
             do {
-                try self.repository.setFavorite(id: id, isFavorite: isFavorite)
+                try await self.repository.setFavorite(id: id, isFavorite: isFavorite)
                 await MainActor.run {
                     emit(.favorite(.setFavoriteSuccessfully(id: id, category: category)))
                 }

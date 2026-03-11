@@ -7,7 +7,6 @@
 import Foundation
 
 struct NoteListReducer {
-    let repository: NotesRepositoryProtocol
     
     func reduce(
         state: inout NoteSummaryState,
@@ -37,6 +36,9 @@ struct NoteListReducer {
                 state: &state,
                 favorite: favorite,
             )
+        case .freezUI:
+            // For instruments learning: Time Profle + Hang
+            do { sleep(2) }
             
         case .save:
             break
