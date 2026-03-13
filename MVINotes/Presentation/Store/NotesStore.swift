@@ -18,7 +18,7 @@ final class NotesStore {
     
     init(repository: NotesRepositoryProtocol) {
         self.repository = repository
-        self.reducer = NoteListReducer(repository: repository)
+        self.reducer = NoteListReducer()
         self.controller = NoteListController(repository: repository)
     }
     

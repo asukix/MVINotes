@@ -53,11 +53,13 @@ struct NoteListReducer {
         case .saving(let item):
             NSLog("Adding item")
             
-        case .addedSuccessfully:
+        case .addedSuccessfully(let item):
+            state.items.append(item)
             state.route = nil
             
         case .addFailed(let item, let error):
             if let idx = state.items.firstIndex(of: item) {
+                state.items.remove(at: idx)
                 state.route = nil
             }
             NSLog("Error while adding item: \(error)")
