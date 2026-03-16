@@ -30,10 +30,21 @@ class NoteListReucerTests: XCTestCase {
             details: "Test details"
         )
     }()
+    
+    lazy var noteStub2: NoteItemDTO = {
+        NoteItemDTO(
+            title: "Different note",
+            summary: "Different summary",
+            date: Date(),
+            category: .none,
+            details: "Test details2"
+        )
+    }()
 }
 
 // MARK: Add or update reduce tests
 extension NoteListReucerTests {
+    @MainActor
     func test_add_saveIemToItems() {
         let note = noteStub
         
@@ -48,6 +59,7 @@ extension NoteListReucerTests {
         XCTAssertEqual(state.items.first, note)
     }
     
+    @MainActor
     func test_add_failedNotAddToItems() {
         let note = noteStub
         let note2 = NoteItemDTO(
@@ -73,31 +85,85 @@ extension NoteListReucerTests {
     }
 }
 
-/**
- 
- private func reduceSave(
-     state: inout NoteSummaryState,
-     addOrUpdate: NotesResult.AddOrUpdate
- ) {
-     switch addOrUpdate {
-     case .saving(let item):
-         NSLog("Adding item")
-         
-     case .addedSuccessfully:
-         state.route = nil
-         
-     case .addFailed(let item, let error):
-         if let idx = state.items.firstIndex(of: item) {
-             state.route = nil
-         }
-         NSLog("Error while adding item: \(error)")
-     }
- }
- 
- */
+// MARK: FAvorite reduce tests
+extension NoteListReucerTests {
+    @MainActor
+    func test_setFavorite_updatesItemCategory() {
+        let note = noteStub
+        
+        var state = NoteSummaryState(items: [note])
+        
+        sut.reduce(
+            state: &state,
+            result: .favorite(.settingFavorite(id: note.id, category: .favorites))
+        )
+        
+        XCTAssertEqual(state.favoritingItemId, note.id)
+        XCTAssertEqual(state.items.first?.category, NotesCategory.favorites)
+    }
+    
+    @MainActor
+    func test_setFavorite_whenItemIsNotInState_doesNothing() {
+        let note = noteStub
+        
+        var state = NoteSummaryState(items: [])
+        
+        sut.reduce(
+            state: &state,
+            result: .favorite(.settingFavorite(id: note.id, category: .favorites))
+        )
+        
+        XCTAssertNil(state.favoritingItemId)
+    }
+    
+    @MainActor
+    func test_setFavorite_whenSettingFavoriteFails_preservesItemCategory() {
+        let note = noteStub
+        
+        var state = NoteSummaryState(items: [note])
+        
+        sut.reduce(
+            state: &state,
+            result: .favorite(.setFavoriteFailed(id: note.id, category: NotesCategory.none, error: NSError(domain: "", code: 0, userInfo: nil)))
+        )
+        
+        XCTAssertEqual(state.favoritingItemId, nil)
+        XCTAssertEqual(state.items.first?.category, NotesCategory.none)
+    }
+    
+    @MainActor
+    func test_setFavorite_whenSettingFavoriteFails_andNoItems_doesNothing() {
+        var state = NoteSummaryState(items: [])
+        
+        sut.reduce(
+            state: &state,
+            result: .favorite(.setFavoriteFailed(id: UUID(), category: NotesCategory.none, error: NSError(domain: "", code: 0, userInfo: nil)))
+        )
+        
+        XCTAssertNil(state.favoritingItemId)
+    }
+    
+    @MainActor
+    func test_setFavorite_whenSettingFavoriteFails_andNoSpecificFavoriteIdInState_doesNothing() {
+        let note = noteStub
+        let note2 = noteStub2
+        var state = NoteSummaryState(
+            items: [note],
+            favoritingItemId: note.id
+        )
+        
+        sut.reduce(
+            state: &state,
+            result: .favorite(.setFavoriteFailed(id: note2.id, category: NotesCategory.none, error: NSError(domain: "", code: 0, userInfo: nil)))
+        )
+        
+        XCTAssertEqual(state.favoritingItemId, note.id)
+    }
+}
 
 // MARK: Delete reduce tests
 extension NoteListReucerTests {
+    @MainActor
     func test_delete_removesItemFromItems_andAddsToDeletingItems() {
         
         let note = noteStub
@@ -113,6 +179,7 @@ extension NoteListReucerTests {
         XCTAssertTrue(state.deletingItems.contains(note))
     }
     
+    @MainActor
     func test_delete_deleteFailed_addsItemBackToItems() {
         
         let note = noteStub
@@ -132,6 +199,7 @@ extension NoteListReucerTests {
         XCTAssertEqual(state.deletingItems.count, 0)
     }
     
+    @MainActor
     func test_delete_deleteSucceeded_removesFromDeletingItems() {
         let note = noteStub
         
