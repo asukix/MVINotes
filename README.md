@@ -9,7 +9,9 @@ Simplified layer structure — no separate DataSource layer, as the app scope do
 **Testing**
 
 Integration tests with in-memory CoreData stack, covering repository
+
 XCT Unit Test: covering reducer
+
 Swift Test: covering controller
 
 **Tech stack**
