@@ -40,6 +40,30 @@ class NoteListReucerTests: XCTestCase {
             details: "Test details2"
         )
     }()
+     
+    func test_filter_setFilterMode() {
+        var state = NoteSummaryState()
+        
+        sut.reduce(
+            state: &state,
+            result: .filter(.selected(category: NotesCategory.none))
+        )
+        XCTAssertEqual(state.filterMode, .none)
+        
+        sut.reduce(
+            state: &state,
+            result: .filter(.selected(category: NotesCategory.all))
+        )
+        XCTAssertEqual(state.filterMode, .all)
+        
+        sut.reduce(
+            state: &state,
+            result: .filter(.selected(category: NotesCategory.favorites))
+        )
+        XCTAssertEqual(state.filterMode, .favorites)
+    }
+    
+    
 }
 
 // MARK: Add or update reduce tests
@@ -90,7 +114,6 @@ extension NoteListReucerTests {
     @MainActor
     func test_setFavorite_updatesItemCategory() {
         let note = noteStub
-        
         var state = NoteSummaryState(items: [note])
         
         sut.reduce(
@@ -105,7 +128,6 @@ extension NoteListReucerTests {
     @MainActor
     func test_setFavorite_whenItemIsNotInState_doesNothing() {
         let note = noteStub
-        
         var state = NoteSummaryState(items: [])
         
         sut.reduce(
@@ -119,7 +141,6 @@ extension NoteListReucerTests {
     @MainActor
     func test_setFavorite_whenSettingFavoriteFails_preservesItemCategory() {
         let note = noteStub
-        
         var state = NoteSummaryState(items: [note])
         
         sut.reduce(
@@ -165,9 +186,7 @@ extension NoteListReucerTests {
 extension NoteListReucerTests {
     @MainActor
     func test_delete_removesItemFromItems_andAddsToDeletingItems() {
-        
         let note = noteStub
-        
         var state = NoteSummaryState(items: [note])
         
         sut.reduce(
@@ -181,9 +200,7 @@ extension NoteListReucerTests {
     
     @MainActor
     func test_delete_deleteFailed_addsItemBackToItems() {
-        
         let note = noteStub
-        
         var state = NoteSummaryState(
             items: [],
             deletingItems: [note]
@@ -202,7 +219,6 @@ extension NoteListReucerTests {
     @MainActor
     func test_delete_deleteSucceeded_removesFromDeletingItems() {
         let note = noteStub
-        
         var state = NoteSummaryState(deletingItems: [note])
         
         sut.reduce(
@@ -211,5 +227,33 @@ extension NoteListReucerTests {
         )
         
         XCTAssertEqual(state.deletingItems, [])
+    }
+}
+
+// MARK: navigation reduce tests
+extension NoteListReucerTests {
+    func test_navigation_navigatingToDetail_setsRouteToNoteDetails() {
+        let note = noteStub
+        var state = NoteSummaryState()
+        
+        sut.reduce(
+            state: &state,
+            result: .navigation(.navigatingToDetail(item: note))
+        )
+        
+        XCTAssertEqual(state.route, .noteDetails(item: note))
+    }
+    
+    @MainActor
+    func test_navigation_navigateBackToList_setsRouteToNil() {
+        let note = noteStub
+        var state = NoteSummaryState(route: .noteDetails(item: note))
+        
+        sut.reduce(
+            state: &state,
+            result: .navigation(.navigateToBackToList)
+        )
+        
+        XCTAssertNil(state.route)
     }
 }

@@ -76,9 +76,6 @@ struct NoteListReducer {
             
         case .navigateToBackToList:
             state.route = nil
-            
-        case .routeChanged(let route):
-            state.route = route
         }
     }
     

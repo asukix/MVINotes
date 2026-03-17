@@ -34,7 +34,6 @@ enum NotesResult {
     enum Navigation {
         case navigatingToDetail(item: NoteItemDTO?)
         case navigateToBackToList
-        case routeChanged(NotesRoute?)
     }
 
     enum Filter {
