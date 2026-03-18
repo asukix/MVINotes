@@ -41,7 +41,7 @@ class NoteListReucerTests: XCTestCase {
         )
     }()
      
-    func test_filter_setFilterMode() {
+    func testFilterSetFilterMode() {
         // Given
         var state = NoteSummaryState()
         
@@ -79,7 +79,7 @@ class NoteListReucerTests: XCTestCase {
 // MARK: Add or update reduce tests
 extension NoteListReucerTests {
     @MainActor
-    func test_add_saveIemToItems() {
+    func testAddSaveItemToItems() {
         // Given
         let note = noteStub
         var state = NoteSummaryState()
@@ -96,7 +96,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_add_failedNotAddToItems() {
+    func testAddFailedNotAddToItems() {
         // Given
         let note = noteStub
         let note2 = NoteItemDTO(
@@ -126,7 +126,7 @@ extension NoteListReucerTests {
 // MARK: FAvorite reduce tests
 extension NoteListReucerTests {
     @MainActor
-    func test_setFavorite_updatesItemCategory() {
+    func testSetFavoriteUpdatesItemCategory() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(items: [note])
@@ -143,7 +143,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_setFavorite_whenItemIsNotInState_doesNothing() {
+    func testSetFavoriteWhenItemIsNotInStateDoesNothing() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(items: [])
@@ -159,7 +159,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_setFavorite_whenSettingFavoriteFails_preservesItemCategory() {
+    func testSetFavoriteWhenSettingFavoriteFailsPreservesItemCategory() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(items: [note])
@@ -176,7 +176,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_setFavorite_whenSettingFavoriteFails_andNoItems_doesNothing() {
+    func testSetFavoriteWhenSettingFavoriteFailsAndNoItemsDoesNothing() {
         // Given
         var state = NoteSummaryState(items: [])
         
@@ -191,7 +191,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_setFavorite_whenSettingFavoriteFails_andNoSpecificFavoriteIdInState_doesNothing() {
+    func testSetFavoriteWhenSettingFavoriteFailsAndNoSpecificFavoriteIdInStateDoesNothing() {
         // Given
         let note = noteStub
         let note2 = noteStub2
@@ -214,7 +214,7 @@ extension NoteListReucerTests {
 // MARK: Delete reduce tests
 extension NoteListReucerTests {
     @MainActor
-    func test_delete_removesItemFromItems_andAddsToDeletingItems() {
+    func testDeleteRemovesItemFromItemsAndAddsToDeletingItems() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(items: [note])
@@ -231,7 +231,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_delete_deleteFailed_addsItemBackToItems() {
+    func testDeleteDeleteFailedAddsItemBackToItems() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(
@@ -252,7 +252,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_delete_deleteSucceeded_removesFromDeletingItems() {
+    func testDeleteDeleteSucceededRemovesFromDeletingItems() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(deletingItems: [note])
@@ -270,7 +270,7 @@ extension NoteListReucerTests {
 
 // MARK: navigation reduce tests
 extension NoteListReucerTests {
-    func test_navigation_navigatingToDetail_setsRouteToNoteDetails() {
+    func testNavigationNavigatingToDetailSetsRouteToNoteDetails() {
         // Given
         let note = noteStub
         var state = NoteSummaryState()
@@ -286,7 +286,7 @@ extension NoteListReucerTests {
     }
     
     @MainActor
-    func test_navigation_navigateBackToList_setsRouteToNil() {
+    func testNavigationNavigateBackToListSetsRouteToNil() {
         // Given
         let note = noteStub
         var state = NoteSummaryState(route: .noteDetails(item: note))

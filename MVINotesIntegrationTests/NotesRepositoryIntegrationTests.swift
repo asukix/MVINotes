@@ -37,7 +37,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
     }()
     
     @MainActor
-    func test_addAndFetch_savedItemIsReturnedCorrectly() async throws {
+    func testAddAndFetchSavedItemIsReturnedCorrectly() async throws {
         let note = noteStub
         
         try await sut.addItem(item: note)
@@ -51,7 +51,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
         XCTAssertEqual(fetched.first?.details, "Details")
     }
     
-    func test_delete_fetch_noItemIsReturned() async throws {
+    func testDeleteFetchNoItemIsReturned() async throws {
         let note = noteStub
         
         try await sut.addItem(item: note)
@@ -62,7 +62,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
     }
     
     @MainActor
-    func test_update_fetch_itemIsUpdated() async throws {
+    func testUpdateFetchItemIsUpdated() async throws {
         let note = noteStub
         let date2 = Calendar.current.date(byAdding: .day, value: 1, to: note.date)!
         let category2 = NotesCategory.none
@@ -88,7 +88,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
         
     }
     
-    func test_setFavoriteFalse_then_fetch_itemCategoryIsFavorite() async throws {
+    func testSetFavoriteFalseThenFetchItemCategoryIsFavorite() async throws {
         let note = noteStub
         
         try await sut.addItem(item: note)
@@ -98,7 +98,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
         XCTAssertEqual(fetched.first?.category, NotesCategory.favoriteCategory(isFavoirte: false))
     }
     
-    func test_setFavoriteTrue_then_fetch_itemCategoryIsFavorite() async throws {
+    func testSetFavoriteTrueThenFetchItemCategoryIsFavorite() async throws {
         let date = Date()
         let note = NoteItemDTO(
             title: "Test Note",
