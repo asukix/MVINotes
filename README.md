@@ -10,6 +10,10 @@ Simplified layer structure — no separate DataSource layer, as the app scope do
 
 Integration tests with in-memory CoreData stack, covering repository
 
+XCT Unit Test: covering reducer
+
+Swift Test: covering controller
+
 **Tech stack**
 
-Swift, SwiftUI, CoreData, XCTest,
+Swift, SwiftUI, CoreData, XCTest, Swift Test
