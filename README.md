@@ -12,7 +12,7 @@ Integration tests with in-memory CoreData stack, covering repository
 
 XCT Test: covering reducer and UI test
 
-Swift Test: covering controller
+Swift Testing: covering controller
 
 **Tech stack**
 
