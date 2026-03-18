@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import MVINotesShared
 
 final class MVINotesUITests: XCTestCase {
 
@@ -21,21 +22,30 @@ final class MVINotesUITests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
     @MainActor
-    func testExample() throws {
-        // UI tests must launch the application that they test.
+    func testCreateNewNote() throws {
+        // GIVEN - Az alkalmazás elindul és látjuk a Notes listát
         let app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let addNewButton = app.buttons[AccessibilityIds.NoteListViewIds.newNoteButton.rawValue]
+        XCTAssertTrue(addNewButton.waitForExistence(timeout: 4))
+        
+        addNewButton.tap()
+        
+        let titleTextField = app.textFields[AccessibilityIds.NoteViewIds.titleTextField.rawValue]
+        XCTAssertTrue(titleTextField.waitForExistence(timeout: 3))
+        titleTextField.tap()
+        titleTextField.typeText("UI Test Note")
+        
+        let saveButton = app.buttons[AccessibilityIds.NoteViewIds.saveButton.rawValue]
+        XCTAssertTrue(saveButton.waitForExistence(timeout: 1))
+        saveButton.tap()
+        
+        let noteCell = app.staticTexts["UI Test Note"]
+        XCTAssertTrue(noteCell.waitForExistence(timeout: 3))
+        
     }
-
-    @MainActor
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
-    }
+    
 }

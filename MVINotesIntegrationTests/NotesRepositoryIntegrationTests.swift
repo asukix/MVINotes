@@ -36,6 +36,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
         )
     }()
     
+    @MainActor
     func test_addAndFetch_savedItemIsReturnedCorrectly() async throws {
         let note = noteStub
         
@@ -60,6 +61,7 @@ final class NotesRepositoryIntegrationTests: XCTestCase {
         XCTAssertTrue(fetched.isEmpty)
     }
     
+    @MainActor
     func test_update_fetch_itemIsUpdated() async throws {
         let note = noteStub
         let date2 = Calendar.current.date(byAdding: .day, value: 1, to: note.date)!

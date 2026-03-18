@@ -43,6 +43,7 @@ struct NotesListView: View {
                     Button("+New") {
                         store.send(.navigateToNote())
                     }
+                    .accessibilityIdentifier(AccessibilityIds.NoteListViewIds.newNoteButton.rawValue)
                     Button("Freez UI") {
                         store.send(.freezUI)
                     }
@@ -75,7 +76,7 @@ struct NotesListView: View {
 }
 
 #Preview {
-//    NotesListView(store: NotesStore())
+   
 }
 
 //    

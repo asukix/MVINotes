@@ -10,7 +10,23 @@ import CoreData
 
 enum TestCoreDataStack {
     static func makeContext() -> NSManagedObjectContext {
-        let container = NSPersistentContainer(name: "MVINotes")
+        // Keresd meg a modellt a megfelelő bundle-ben
+        let bundles = [Bundle.main, Bundle(for: NoteItem.self)]
+        var modelURL: URL?
+        
+        for bundle in bundles {
+            if let url = bundle.url(forResource: "MVINotes", withExtension: "momd") {
+                modelURL = url
+                break
+            }
+        }
+        
+        guard let url = modelURL,
+              let model = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Failed to load Core Data model")
+        }
+        
+        let container = NSPersistentContainer(name: "MVINotes", managedObjectModel: model)
         let description = NSPersistentStoreDescription()
         description.type = NSInMemoryStoreType
         container.persistentStoreDescriptions = [description]

@@ -39,6 +39,7 @@ struct NoteView: View {
                 TextField("", text: $title, prompt: Text("Title"))
                     .font(.title)
                     .frame(alignment: .leading)
+                    .accessibilityIdentifier(AccessibilityIds.NoteViewIds.titleTextField.rawValue)
                 TextField("", text: $summary, prompt: Text("Summary"))
                     .foregroundStyle(.secondary)
                     .frame(alignment: .leading)
@@ -77,6 +78,7 @@ struct NoteView: View {
                 }) {
                     Text("Save")
                 }
+                .accessibilityIdentifier(AccessibilityIds.NoteViewIds.saveButton.rawValue)
             }
             ToolbarItemGroup(placement: .keyboard) {
                 Button {

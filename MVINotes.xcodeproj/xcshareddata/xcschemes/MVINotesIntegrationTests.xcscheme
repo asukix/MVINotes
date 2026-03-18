@@ -50,6 +50,17 @@
                ReferencedContainer = "container:MVINotes.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "646081B12F6A968900D524FC"
+               BuildableName = "MVINotesSharedTests.xctest"
+               BlueprintName = "MVINotesSharedTests"
+               ReferencedContainer = "container:MVINotes.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
