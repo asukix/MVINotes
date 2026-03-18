@@ -1,5 +1,4 @@
 # Notes app 
-## MVI architecture with unidirectional data flow & integration tests
 
 **Architecture**
 
