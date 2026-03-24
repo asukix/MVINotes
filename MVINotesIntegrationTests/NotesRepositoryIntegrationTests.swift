@@ -9,6 +9,7 @@ import XCTest
 @testable import MVINotes
 import CoreData
 
+@MainActor
 final class NotesRepositoryIntegrationTests: XCTestCase {
     private var sut: NotesRepositoryProtocol!
     private var context: NSManagedObjectContext!
