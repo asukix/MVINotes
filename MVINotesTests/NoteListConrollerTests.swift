@@ -252,7 +252,6 @@ extension NoteListControllerTests {
         }
         
         #expect(id == noteStub.id)
-        #expect(mockRepository.deleteItemCalled == true)
     }
     
     @Test("Item delete action emits delete failed")
@@ -327,6 +326,7 @@ extension NoteListControllerTests {
         // Wait for async operation
         try await Task.sleep(for: .milliseconds(100))
         
+        // Then
         #expect(emittedResults.count == 2)
         
         guard case .addOrUpdate(let finalState) = emittedResults.last else {

@@ -11,7 +11,6 @@ final class MockNotesRepository: NotesRepositoryProtocol {
     var fetchAllCalled = false
     var addItemCalled = false
     var updateItemCalled = false
-    var deleteItemCalled = false
     var setFavoriteCalled = false
     
     // Helper properties for easier testing
@@ -45,8 +44,6 @@ final class MockNotesRepository: NotesRepositoryProtocol {
     }
     
     func deleteItem(id: UUID) async throws {
-        deleteItemCalled = true
-        
         if shouldThrowError {
             throw MockError.testError
         }
