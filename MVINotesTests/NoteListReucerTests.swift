@@ -7,6 +7,7 @@
 
 @testable import MVINotes
 import XCTest
+import Testing
 
 class NoteListReucerTests: XCTestCase {
     private var sut: NoteListReducer!
@@ -40,40 +41,25 @@ class NoteListReucerTests: XCTestCase {
             details: "Test details2"
         )
     }()
-     
-    func testFilterSetFilterMode() {
+    
+}
+
+struct NoteListReducerSwiftTests {
+    @Test("Note List Reducer test when filtering notes", arguments: NotesCategory.allCases)
+    func testFilterSetFilterMode(category: NotesCategory) {
         // Given
+        var sut: NoteListReducer = .init()
         var state = NoteSummaryState()
         
         // When - filtering by none category
         sut.reduce(
             state: &state,
-            result: .filter(.selected(category: NotesCategory.none))
+            result: .filter(.selected(category: category))
         )
         
         // Then
-        XCTAssertEqual(state.filterMode, .none)
-        
-        // When - filtering by all category
-        sut.reduce(
-            state: &state,
-            result: .filter(.selected(category: NotesCategory.all))
-        )
-        
-        // Then
-        XCTAssertEqual(state.filterMode, .all)
-        
-        // When - filtering by favorites category
-        sut.reduce(
-            state: &state,
-            result: .filter(.selected(category: NotesCategory.favorites))
-        )
-        
-        // Then
-        XCTAssertEqual(state.filterMode, .favorites)
+        #expect(state.filterMode == category)
     }
-    
-    
 }
 
 // MARK: Add or update reduce tests

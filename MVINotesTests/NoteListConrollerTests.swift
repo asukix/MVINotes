@@ -319,7 +319,6 @@ extension NoteListControllerTests {
     func itemAddActionForNewItemEmitsSuccess() async throws {
         // Given
         var emittedResults: [NotesResult] = []
-        mockRepository.shouldReturnEmptyList = true // Simulate item doesn't exist
         // When
         sut.process(.itemAddAction(item: noteStub)) { result in
             emittedResults.append(result)
