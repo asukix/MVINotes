@@ -30,7 +30,7 @@ struct NoteListControllerTests {
     
     // MARK: - Filter Tests
     @Test("Filter action emits correct filter for category", arguments: NotesCategory.allCases)
-    func filterActionEmitsFilter(category: NotesCategory) async throws {
+    func filterActionEmitsFilter(category: NotesCategory) {
         // Given
         var emittedResults: [NotesResult] = []
         
@@ -60,7 +60,7 @@ struct NoteListControllerTests {
 extension NoteListControllerTests {
     
     @Test("Navigate to note emits navigating to detail")
-    func navigateToNoteEmitsNavigatingToDetail() async throws {
+    func navigateToNoteEmitsNavigatingToDetail() {
         // Given
         var emittedResults: [NotesResult] = []
         
@@ -114,7 +114,7 @@ extension NoteListControllerTests {
 // MARK: load tests
 extension NoteListControllerTests {
     @Test("Load action emits loading state first")
-    func loadActionEmitsLoadingStateFirst() async throws {
+    func loadActionEmitsLoadingStateFirst() {
         // Given
         var emittedResults: [NotesResult] = []
         
@@ -199,7 +199,7 @@ extension NoteListControllerTests {
 extension NoteListControllerTests {
     
     @Test("Item delete action emits deleting state first")
-    func itemDeleteActionEmitsDeletingState() async throws {
+    func itemDeleteActionEmitsDeletingState() {
         // Given
         var emittedResults: [NotesResult] = []
         
@@ -289,7 +289,7 @@ extension NoteListControllerTests {
 extension NoteListControllerTests {
     
     @Test("Item add action emits saving state first")
-    func itemAddActionEmitsSavingState() async throws {
+    func itemAddActionEmitsSavingState() {
         // Given
         var emittedResults: [NotesResult] = []
         
@@ -408,7 +408,7 @@ extension NoteListControllerTests {
 // MARK: item favorite tests
 extension NoteListControllerTests {
     @Test("Set favorite action emits setting favorite first", arguments: [true, false])
-    func setFavoriteActionEmitsSettingFavoriteFirst(isFavorite: Bool) async throws {
+    func setFavoriteActionEmitsSettingFavoriteFirst(isFavorite: Bool) {
         // Given
         var emittedResults: [NotesResult] = []
         
